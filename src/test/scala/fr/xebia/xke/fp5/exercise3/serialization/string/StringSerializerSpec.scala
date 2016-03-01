@@ -1,11 +1,12 @@
-package fr.xebia.xke.fp5.exercise3.serializer.string
+package fr.xebia.xke.fp5.exercise3.serialization.string
 
+import fr.xebia.xke.fp5.EXO_3_1
 import fr.xebia.xke.fp5.exercise3.helper.ValidationHelper._
 import fr.xebia.xke.fp5.exercise3.model.Person
-import fr.xebia.xke.fp5.exercise3.serializer.Serializer
-import fr.xebia.xke.fp5.exercise3.serializer.Serializer.{read, write}
-import fr.xebia.xke.fp5.exercise3.serializer.string.CustomTypesSerializationSupport._
-import fr.xebia.xke.fp5.exercise3.serializer.string.StandardTypeSerializationSupport._
+import fr.xebia.xke.fp5.exercise3.serialization.Serializer
+import fr.xebia.xke.fp5.exercise3.serialization.Serializer.{read, write}
+import fr.xebia.xke.fp5.exercise3.serialization.string.CustomTypeSerializationSupport._
+import fr.xebia.xke.fp5.exercise3.serialization.string.StandardTypeSerializationSupport._
 import org.scalatest.{Assertions, FlatSpec, Matchers}
 
 class StringSerializerSpec extends FlatSpec with Matchers with Assertions {
@@ -89,19 +90,16 @@ class StringSerializerSpec extends FlatSpec with Matchers with Assertions {
     read[Either[String, String]]("Wrong(15)").isFailure should be(true)
   }
 
-  //!TODO EXO1
-  it should "serialize Person" in {
+  it should "serialize Person" taggedAs EXO_3_1 in {
     write(Person("first", "last", None)).value should equal("Person(first,last,None)")
     write(Person("first", "last", Some("flast@gmail.com"))).value should equal("Person(first,last,Some(flast@gmail.com))")
   }
 
-  //!TODO EXO1
-  it should "deserialize Person" in {
+  it should "deserialize Person" taggedAs EXO_3_1 in {
     read[Person]("Person(martin,odersky,None)").value should equal(Person("martin", "odersky", None))
   }
 
-  //!TODO EXO1
-  it should "fail for invalid Person read" in {
+  it should "fail for invalid Person read" taggedAs EXO_3_1 in {
     read[Person]("Person(hi)").isFailure should be(true)
   }
 

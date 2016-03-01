@@ -1,6 +1,6 @@
-package fr.xebia.xke.fp5.exercise3.serializer
+package fr.xebia.xke.fp5.exercise3.serialization
 
-import fr.xebia.xke.fp5.exercise3.serializer.Serializer.SerializationError
+import fr.xebia.xke.fp5.exercise3.serialization.Serializer.SerializationError
 
 import scalaz.Validation
 

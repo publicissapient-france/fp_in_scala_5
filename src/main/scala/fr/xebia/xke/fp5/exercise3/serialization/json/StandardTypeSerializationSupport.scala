@@ -1,7 +1,7 @@
-package fr.xebia.xke.fp5.exercise3.serializer.json
+package fr.xebia.xke.fp5.exercise3.serialization.json
 
-import fr.xebia.xke.fp5.exercise3.serializer.Serializer.SerializationError
-import fr.xebia.xke.fp5.exercise3.serializer.{Serializable, Serializer, string}
+import fr.xebia.xke.fp5.exercise3.serialization.Serializer.SerializationError
+import fr.xebia.xke.fp5.exercise3.serialization.{Serializable, Serializer, string}
 
 import scalaz.{Failure, Success, Validation}
 

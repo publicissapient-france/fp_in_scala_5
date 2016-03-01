@@ -23,4 +23,27 @@ Scala tels que Catz ou Scalaz.
 
 ## Exercice 2: codage d'un algorithme de tri pour différents types de données
 
-## Exercice 3: exemple de serialization json
+## Exercice 3: persistance
+### 1ère étape: Serialization
+En vous inspirant des instances (de type class) déjà défini dans string.StandardTypeSerializationSupport,
+ajoutez une nouvelle instance de Serializable[Person] pour permettre la serialization d'instances de Person.
+```
+sbt exo3_1
+```
+
+### Validation
+Ajoutez une nouvelle instance de Validatable[Person] pour permettre la validation d'instances de Person.
+```
+sbt exo3_2
+```
+
+### Persistance: Validation + Serialization
+La classe Persister se charge de persister des données (vers un fichier par exemple).
+Si vous regardez le code de Persister vous remarquerez qu'afin de persister un type T, ce dernier doit faire partie de
+deux type classes: Serializable[T] et Validatable[T].
+Si le type T satisfait ces types classes le Persister tente une validation, puis un sérialization puis persiste l'entité
+si et seulement si les deux étapes précédentes sont en succès.
+Importez les bonnes instances de type classes afin de faire passer les tests.
+```
+sbt exo3_3
+```

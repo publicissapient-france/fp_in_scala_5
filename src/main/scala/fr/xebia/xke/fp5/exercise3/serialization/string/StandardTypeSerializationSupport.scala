@@ -1,8 +1,8 @@
-package fr.xebia.xke.fp5.exercise3.serializer.string
+package fr.xebia.xke.fp5.exercise3.serialization.string
 
 import fr.xebia.xke.fp5.exercise3.helper.TryHelper._
-import fr.xebia.xke.fp5.exercise3.serializer.Serializer.SerializationError
-import fr.xebia.xke.fp5.exercise3.serializer.{Serializable, Serializer}
+import fr.xebia.xke.fp5.exercise3.serialization.Serializer.SerializationError
+import fr.xebia.xke.fp5.exercise3.serialization.{Serializable, Serializer}
 
 import scala.util.Try
 import scalaz.{Failure, Success, Validation}

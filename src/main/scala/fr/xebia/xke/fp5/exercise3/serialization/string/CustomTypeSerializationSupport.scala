@@ -1,13 +1,13 @@
-package fr.xebia.xke.fp5.exercise3.serializer.string
+package fr.xebia.xke.fp5.exercise3.serialization.string
 
 import fr.xebia.xke.fp5.exercise3.model.Person
-import fr.xebia.xke.fp5.exercise3.serializer.Serializer.SerializationError
-import fr.xebia.xke.fp5.exercise3.serializer.string.StandardTypeSerializationSupport._
-import fr.xebia.xke.fp5.exercise3.serializer.{Serializable, Serializer}
+import fr.xebia.xke.fp5.exercise3.serialization.Serializer.SerializationError
+import fr.xebia.xke.fp5.exercise3.serialization.string.StandardTypeSerializationSupport._
+import fr.xebia.xke.fp5.exercise3.serialization.{Serializable, Serializer}
 
 import scalaz.{Failure, Success, Validation}
 
-object CustomTypesSerializationSupport {
+object CustomTypeSerializationSupport {
 
   implicit object PersonSerializationSupport extends Serializable[Person] {
 

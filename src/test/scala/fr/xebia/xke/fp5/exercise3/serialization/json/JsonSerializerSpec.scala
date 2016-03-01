@@ -1,8 +1,8 @@
-package fr.xebia.xke.fp5.exercise3.serializer.json
+package fr.xebia.xke.fp5.exercise3.serialization.json
 
 import fr.xebia.xke.fp5.exercise3.helper.ValidationHelper._
-import fr.xebia.xke.fp5.exercise3.serializer.Serializer._
-import fr.xebia.xke.fp5.exercise3.serializer.json.StandardTypeSerializationSupport._
+import fr.xebia.xke.fp5.exercise3.serialization.Serializer._
+import fr.xebia.xke.fp5.exercise3.serialization.json.StandardTypeSerializationSupport._
 import org.scalatest.{Assertions, FlatSpec, Matchers}
 
 class JsonSerializerSpec extends FlatSpec with Matchers with Assertions {

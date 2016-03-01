@@ -1,4 +1,4 @@
-package fr.xebia.xke.fp5.exercise3.serializer
+package fr.xebia.xke.fp5.exercise3.serialization
 
 import scalaz.Validation
 

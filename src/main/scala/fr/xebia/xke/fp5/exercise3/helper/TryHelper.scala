@@ -1,6 +1,6 @@
 package fr.xebia.xke.fp5.exercise3.helper
 
-import fr.xebia.xke.fp5.exercise3.serializer.Serializer
+import fr.xebia.xke.fp5.exercise3.serialization.Serializer
 import Serializer.SerializationError
 
 import scala.util.Try

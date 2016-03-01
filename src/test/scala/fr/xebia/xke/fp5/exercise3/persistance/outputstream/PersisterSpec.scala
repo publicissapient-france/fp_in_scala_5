@@ -3,99 +3,64 @@ package fr.xebia.xke.fp5.exercise3.persistance.outputstream
 import java.io.PrintWriter
 
 import akka.actor.ActorSystem
-import akka.http.scaladsl.HttpExt
-import akka.http.scaladsl.marshalling.Marshal
-import akka.http.scaladsl.model.{HttpMethods, HttpRequest, HttpResponse, RequestEntity}
 import akka.stream.ActorMaterializer
+import fr.xebia.xke.fp5.EXO_3_3
+import fr.xebia.xke.fp5.exercise3.model.Person
 import fr.xebia.xke.fp5.exercise3.persistance.Persister.persist
-import fr.xebia.xke.fp5.exercise3.persistance.httpservice.HttpServicePersistance
-import org.mockito.ArgumentCaptor
-import org.mockito.BDDMockito.given
-import org.mockito.Mockito.{mock, verify}
+import fr.xebia.xke.fp5.exercise3.validation.validators.CustomTypeValidationSupport._
+import fr.xebia.xke.fp5.exercise3.validation.validators.StandardTypeValidationSupport._
+import org.mockito.Mockito.{mock, verify, verifyZeroInteractions}
 import org.scalatest.{BeforeAndAfter, FlatSpec, Matchers}
-
-import scala.concurrent.ExecutionContext.Implicits.global
-import scala.concurrent.duration._
-import scala.concurrent.{Await, Future}
 
 class PersisterSpec extends FlatSpec with Matchers with BeforeAndAfter {
 
   implicit val materializer = ActorMaterializer()(ActorSystem())
 
-  val stringCaptor = ArgumentCaptor.forClass(classOf[String])
+  var printWriterMock: PrintWriter = mock(classOf[PrintWriter])
+  implicit val mockedOutputStream = OutputStreamPersister.outputStreamPersister(printWriterMock)
 
-  val httpRequestCaptor = ArgumentCaptor.forClass(classOf[HttpRequest])
-
-  var printWriterMock:PrintWriter = null
-  var httpClientMock:HttpExt = null
-
-  before {
-    printWriterMock = mock(classOf[PrintWriter])
-    httpClientMock = mock(classOf[HttpExt])
-  }
-
-  "OutputStreamPersister" should "write data to given stream in string format" in {
+  "Persister" should "write valid Person to stream in string format" taggedAs EXO_3_3 in {
     // Given
-    import fr.xebia.xke.fp5.exercise3.serializer.string.StandardTypeSerializationSupport._
-    implicit val mockedOutputStream = OutputStreamPersister.outputStreamPersister(printWriterMock)
+    import fr.xebia.xke.fp5.exercise3.serialization.string.CustomTypeSerializationSupport._
 
     // When
-    persist(Option(5))
+    persist(Person("fn", "ln", Option("mail@gmail.com")))
 
     // Then
-    verify(printWriterMock).println(stringCaptor.capture())
-    stringCaptor.getValue should equal("Some(5)")
+    verify(printWriterMock).println("Person(fn,ln,Some(mail@gmail.com))")
   }
 
-  it should "write data to given stream in json format" in {
+  it should "not write invalid Person to stream" taggedAs EXO_3_3 in {
     // Given
-    import fr.xebia.xke.fp5.exercise3.serializer.json.StandardTypeSerializationSupport._
-    implicit val mockedOutputStream = OutputStreamPersister.outputStreamPersister(printWriterMock)
+    import fr.xebia.xke.fp5.exercise3.serialization.string.CustomTypeSerializationSupport._
 
     // When
-    persist(Left("val"): Either[String, String])
+    persist(Person("fn", "ln37", Option("mail@gmail.com")))
 
     // Then
-    verify(printWriterMock).println(stringCaptor.capture())
-    stringCaptor.getValue should equal("""{"branch":"left", "value":"val"}""")
+    verifyZeroInteractions(printWriterMock)
   }
 
-  "HttpServicePersistance" should "send data to given service in json format" in {
+  it should "write Either to given stream in string format" taggedAs EXO_3_3 in {
     // Given
-    import fr.xebia.xke.fp5.exercise3.serializer.json.StandardTypeSerializationSupport._
-    implicit val mockedOutputStream = HttpServicePersistance.httpServicePersistance(httpClientMock, "http://url/resource")
-    given(httpClientMock.singleRequest(httpRequestCaptor.capture(), org.mockito.Matchers.any(), org.mockito.Matchers.any(), org.mockito.Matchers.any())(org.mockito.Matchers.any()))
-      .willReturn(Future(HttpResponse()))
+    import fr.xebia.xke.fp5.exercise3.serialization.string.StandardTypeSerializationSupport._
 
     // When
     persist(Left("val"): Either[String, String])
 
     // Then
-    val expectedBody =
-      """{"branch":"left", "value":"val"}"""
-
-    httpRequestCaptor.getValue.uri.toString() should equal("http://url/resource")
-    httpRequestCaptor.getValue.method should equal(HttpMethods.PUT)
-    httpRequestCaptor.getValue.entity should equal(Await.result(Marshal(expectedBody).to[RequestEntity], 10 seconds))
+    verify(printWriterMock).println("""Left("val")""")
   }
 
-  it should "send data to given service in string format" in {
+  it should "write Either to given stream in json format" taggedAs EXO_3_3 in {
     // Given
-    import fr.xebia.xke.fp5.exercise3.serializer.string.StandardTypeSerializationSupport._
-    implicit val mockedOutputStream = HttpServicePersistance.httpServicePersistance(httpClientMock, "http://url/resource")
-    given(httpClientMock.singleRequest(httpRequestCaptor.capture(), org.mockito.Matchers.any(), org.mockito.Matchers.any(), org.mockito.Matchers.any())(org.mockito.Matchers.any()))
-      .willReturn(Future(HttpResponse()))
+    import fr.xebia.xke.fp5.exercise3.serialization.json.StandardTypeSerializationSupport._
 
     // When
     persist(Left("val"): Either[String, String])
 
     // Then
-    val expectedBody =
-      """Left("val")"""
-
-    httpRequestCaptor.getValue.uri.toString() should equal("http://url/resource")
-    httpRequestCaptor.getValue.method should equal(HttpMethods.PUT)
-    httpRequestCaptor.getValue.entity should equal(Await.result(Marshal(expectedBody).to[RequestEntity], 10 seconds))
+    verify(printWriterMock).println("""{"branch":"left", "value":"val"}""")
   }
 
 }
