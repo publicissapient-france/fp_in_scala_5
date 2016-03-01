@@ -19,6 +19,11 @@ Scala tels que Catz ou Scalaz.
 
 **L'objectif est de ne jamais perdre de vue l'objectif: comprendre le type class pattern et comment l'utiliser.**
 
+## Organisation
+Les exercices sont divisés en steps. Pour avancer au prochain step de l'exercice courant il faut exécuter la tache sbt *nextStep*.
+Pour cela, il suffit de saisir *nextStep* une fois qu'on est dans sbt, ou directement saisir *sbt nextStep* dans la ligne de
+commandes
+
 ## Exercice 1: calcul de l'average d'une liste de numéros
 
 ## Exercice 2: codage d'un algorithme de trie pour différents types de données
