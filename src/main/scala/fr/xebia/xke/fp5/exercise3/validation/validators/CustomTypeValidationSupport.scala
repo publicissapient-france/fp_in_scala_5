@@ -11,8 +11,13 @@ object CustomTypeValidationSupport {
 
   implicit object PersonValidationSupport extends Validatable[Person] {
 
-    override def validate(t: Person): Validation[ValidationError, Person] = ???
-
+    override def validate(t: Person): Validation[ValidationError, Person] = {
+      for {
+        fn <- validateName(t.firstName)
+        ln <- validateName(t.lastName)
+        m <- validateMail(t.mail)
+      } yield Person(fn, ln, t.mail)
+    }
   }
 
   private def validateName(name: String): Validation[ValidationError, String] =
