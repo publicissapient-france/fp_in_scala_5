@@ -4,6 +4,7 @@ import java.io.PrintWriter
 
 import fr.xebia.xke.fp5.exercise3.model.Person
 import fr.xebia.xke.fp5.exercise3.persistance.Persister.persist
+import fr.xebia.xke.fp5.exercise3.validation.validators.CustomTypeValidationSupport._
 import org.mockito.Mockito.{mock, verify, verifyZeroInteractions}
 import org.scalatest.{BeforeAndAfter, FlatSpec, Matchers}
 
@@ -14,6 +15,7 @@ class PersisterSpec extends FlatSpec with Matchers with BeforeAndAfter {
 
   "Persister" should "write valid Person to stream in string format" in {
     // Given
+    import fr.xebia.xke.fp5.exercise3.serialization.string.CustomTypeSerializationSupport._
 
     // When
     persist(Person("fn", "ln", Option("mail@gmail.com")))
@@ -24,6 +26,7 @@ class PersisterSpec extends FlatSpec with Matchers with BeforeAndAfter {
 
   it should "write valid Person to stream in json format" in {
     // Given
+    import fr.xebia.xke.fp5.exercise3.serialization.json.CustomTypeSerializationSupport._
 
     // When
     persist(Person("fn", "ln", Option("mail@gmail.com")))
@@ -34,6 +37,7 @@ class PersisterSpec extends FlatSpec with Matchers with BeforeAndAfter {
 
   it should "not write invalid Person to stream" in {
     // Given
+    import fr.xebia.xke.fp5.exercise3.serialization.string.CustomTypeSerializationSupport._
 
     // When
     persist(Person("fn", "ln37", Option("mail@gmail.com")))
